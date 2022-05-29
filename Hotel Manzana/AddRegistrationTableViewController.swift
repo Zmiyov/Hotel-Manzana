@@ -34,10 +34,16 @@ class AddRegistrationTableViewController: UITableViewController {
     @IBOutlet var checkOutDateLabel: UILabel!
     @IBOutlet var checkOutDatePicker: UIDatePicker!
     
+    @IBOutlet var numberOfAdultsLabel: UILabel!
+    @IBOutlet var numberOfAdultsStepper: UIStepper!
+    @IBOutlet var numberOfChildrenLabel: UILabel!
+    @IBOutlet var numberOfChildrenStepper: UIStepper!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateDateViews()
+        updateNumberOfGuests()
         
         let midnightToday = Calendar.current.startOfDay(for: Date())
         checkInDatePicker.minimumDate = midnightToday
@@ -50,11 +56,16 @@ class AddRegistrationTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    func updateDateViews () {
+    func updateDateViews() {
         checkOutDatePicker.minimumDate = Calendar.current.date(byAdding: .day, value: 1, to: checkInDatePicker.date)
         
         checkInDateLabel.text = checkInDatePicker.date.formatted(date: .abbreviated, time: .omitted)
         checkOutDateLabel.text = checkOutDatePicker.date.formatted(date: .abbreviated, time: .omitted)
+    }
+    
+    func updateNumberOfGuests() {
+        numberOfAdultsLabel.text = "\(Int(numberOfAdultsStepper.value))"
+        numberOfChildrenLabel.text = "\(Int(numberOfChildrenStepper.value))"
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -105,6 +116,8 @@ class AddRegistrationTableViewController: UITableViewController {
         let email = emailTextField.text ?? ""
         let checkInDate = checkInDatePicker.date
         let checkOutDate = checkOutDatePicker.date
+        let numberOfAdults = Int(numberOfAdultsStepper.value)
+        let numberOfChildren = Int(numberOfChildrenStepper.value)
         
         print("DONE TAPPED")
         print("firstname: \(firstName)")
@@ -112,10 +125,15 @@ class AddRegistrationTableViewController: UITableViewController {
         print("email: \(email)")
         print("Check-in date: \(checkInDate)")
         print("Check-out date: \(checkOutDate)")
+        print("Number of adults: \(numberOfAdults)")
+        print("Number of children: \(numberOfChildren)")
     }
     
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
         updateDateViews()
+    }
+    @IBAction func stepperValueChanged(_ sender: UIStepper) {
+        updateNumberOfGuests()
     }
     
     /*
